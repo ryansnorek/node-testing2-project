@@ -6,7 +6,7 @@ const server = express();
 
 server.use(express.json());
   
-server.use("/api/stuff", stuffRouter);
+server.use("/stuff", stuffRouter);
 
 server.use((e, req, res, next) => {
   res.status(500).json({
