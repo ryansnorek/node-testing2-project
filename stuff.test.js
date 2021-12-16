@@ -1,7 +1,7 @@
 const request = require("supertest");
 const db = require("./db.config");
 const server = require("./server");
-const { addStuff } = require("./router");
+const { addStuff, findById } = require("./router");
 
 const item = { name: "sherpa" };
 
@@ -28,4 +28,12 @@ describe("unit testing", () => {
   });
 });
 
-console.log(addStuff)
+describe("integration testing", () => {
+    test("add stuff then return it by id", async () => {
+        const [id] = await addStuff(item);
+        const addedItem = await findById(id);
+        expect(addedItem).toMatchObject(item);
+        
+
+    })
+})

@@ -18,7 +18,7 @@ router.get("/:id", (req, res, next) => {
 const addStuff = (stuff) => db("stuff").insert(stuff);
 router.post("/", async (req, res, next) => {
   try {
-    const id = await addStuff(req.body);
+    const [id] = await addStuff(req.body);
     res.json(await findById(id));
   } catch (e) {
     next(e);
@@ -30,6 +30,7 @@ router.delete("/:id", (req, res, next) => {
 });
 
 module.exports = {
-    router, 
-    addStuff
+  router,
+  addStuff,
+  findById
 };
