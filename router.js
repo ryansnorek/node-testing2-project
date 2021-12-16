@@ -26,8 +26,10 @@ router.post("/", async (req, res, next) => {
 });
 // THROW STUFF AWAY
 router.delete("/:id", (req, res, next) => {
-    db("stuff").delete()
-        .where("stuff_id", req.params.id)
-})
+  db("stuff").delete().where("stuff_id", req.params.id);
+});
 
-module.exports = router;
+module.exports = {
+    router, 
+    addStuff
+};
