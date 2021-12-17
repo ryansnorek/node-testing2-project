@@ -34,14 +34,35 @@ describe("integration testing", () => {
     const addedItem = await findById(id);
     expect(addedItem).toMatchObject(item);
   });
-});
-
-describe("end 2 end testing", () => {
   test("add stuff, retrieve it, then throw it away", async () => {
     const [id] = await addStuff(item);
     const addedItem = await findById(id);
     expect(addedItem).toMatchObject(item);
     await removeStuff(id);
     expect(await findById(id)).toBe();
+  });
+});
+
+describe("endpoint testing", () => {
+  test("GET", async () => {
+    await addStuff(item);
+    const stuff = await request(server).get("/stuff");
+    expect(stuff.body).toHaveLength(1);
+  });
+  test("POST", async () => {
+    await request(server).post("/stuff").send({ name: "fork" });
+    const stuff = await request(server).get("/stuff");
+    expect(stuff.body).toHaveLength(1);
+  });
+  test("DELETE", async () => {
+    const [id] = await addStuff(item);
+    const addedItem = await findById(id);
+    expect(addedItem).toMatchObject(item);
+    expect(addedItem.stuff_id).toBe(1)
+
+    // await request(server).delete(`/stuff/${id}`);
+    request(server).delete("/stuff/1")
+    const deletedItem = await findById(id);
+    expect(deletedItem).toBe();
   });
 });
